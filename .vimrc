@@ -204,6 +204,7 @@ set showbreak=\ ->\
 autocmd FileType markdown set showbreak=
 autocmd FileType txt set showbreak=
 
+" Set indent guide colors to sane values for solarized
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8 guibg=#002b36
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0 guibg=#073642
