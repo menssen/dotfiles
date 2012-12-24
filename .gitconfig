@@ -1,0 +1,5 @@
+[user]
+	name = Dan Menssen
+	email = dan@menssen.org
+[credential]
+	helper = osxkeychain
