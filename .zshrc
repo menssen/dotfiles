@@ -35,3 +35,4 @@ fi
 
 alias 'dus=du -ms * | sort -n'
 alias 't=todo.sh'
+alias 'vt=vim ~/Dropbox/todo/todo.txt'
