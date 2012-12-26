@@ -28,3 +28,6 @@
 [submodule ".vim/bundle/vim-indent-guides"]
 	path = .vim/bundle/vim-indent-guides
 	url = https://github.com/nathanaelkane/vim-indent-guides.git
+[submodule ".vim/bundle/todo.txt-vim"]
+	path = .vim/bundle/todo.txt-vim
+	url = https://github.com/davidoc/todo.txt-vim.git

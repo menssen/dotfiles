@@ -34,3 +34,4 @@ if [[ "$TERM" != "dumb" ]]; then
 fi
 
 alias 'dus=du -ms * | sort -n'
+alias 't=todo.sh'
