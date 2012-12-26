@@ -1,6 +1,6 @@
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
-PATH=~/bin:~/Dropbox/bin:/usr/local/sbin:/usr/local/bin:$PATH
+PATH=~/bin:/usr/local/sbin:/usr/local/bin:$PATH
                                                                                
 export CLICOLOR=true
 export GREP_OPTIONS="--color"
@@ -36,3 +36,21 @@ fi
 alias 'dus=du -ms * | sort -n'
 alias 't=todo.sh'
 alias 'vt=vim ~/Dropbox/todo/todo.txt'
+
+n() {
+    if [[ $# < 1 ]]; then
+        vim ~/Dropbox/Notes/scratch.md -c "cd ~/Dropbox/Notes"
+    else
+        SAVE_IFS="$IFS"
+        IFS=" "
+        ARGS=("$@")
+        ARGSJOIN="${ARGS[*]}"
+        IFS="$SAVE_IFS"
+
+        if [[ "$ARGSJOIN" == *.* ]]; then
+            vim ~/Dropbox/Notes/$ARGSJOIN -c "cd ~/Dropbox/Notes"
+        else
+            vim ~/Dropbox/Notes/$ARGSJOIN.md -c "cd ~/Dropbox/Notes"
+        fi
+    fi
+}

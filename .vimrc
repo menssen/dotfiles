@@ -74,7 +74,7 @@ call pathogen#infect()
 autocmd BufNewFile,BufRead *.{txt,text} set filetype=markdown
 
 " Enable todo.txt filetype detection
-autocmd FileType todo set syntax=todo foldmethod=indent
+autocmd BufNewFile,BufRead todo.txt set syntax=todo foldmethod=indent
 
 " Function to activate degraded colors for 256 color terminals without
 " solarized scheme
