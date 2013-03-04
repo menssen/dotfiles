@@ -224,10 +224,16 @@ let g:ctrlp_persistent_input = 0
 " Don't let ctrlp change working directory
 let g:ctrlp_working_path_mode = 0
 
-" CtrlP should ignore the cache directory (symfony)
-set wildignore+=*/app/cache/*
+" CtrlP should ignore the cache and vendor directories (symfony)
+" set wildignore+=*/app/cache/*
+" set wildignore+=*/vendor/*
 " And the build directory (xcode)
-set wildignore+=*/build/*
+" set wildignore+=*/build/*
+"
+" Instead use custom ignore regex
+let g:ctrlp_custom_ignore = {
+    \ 'dir': '\v[\/](vendor|app\/cache)$',
+    \ }
 
 " Enable syntastic error signs in the line number column
 let g:syntastic_enable_signs = 1
@@ -307,9 +313,12 @@ autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!json_xs -f json -t jso
 
 " Ack with smart directory ignore rules
 function! Smack(pattern)
-    exec ':Ack --ignore-dir=cache --ignore-dir=vendor ' . a:pattern
+    exec ':Ack --ignore cache --ignore vendor ' . a:pattern
 endfunction
 command! -nargs=? Smack call Smack('<args>')
+
+" Use ag (the silver searcher!) instead of ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 
 " Rename Current File
@@ -435,7 +444,7 @@ function! RunTests(filename)
 endfunction
 
 function! BuildAndRunXcode()
-    exec ":!xcodebuild -target \"AAC\" -configuration Debug -project \"AAC.xcodeproj\" -sdk iphonesimulator6.0 && ios-sim launch \"build/Debug-iphonesimulator/AAC.app\" --family ipad"
+    exec ":!xcodebuild -target \"Digideck\" -configuration Debug -project \"Digideck.xcodeproj\" -sdk iphonesimulator6.1 && ios-sim launch \"build/Debug-iphonesimulator/Digideck.app\" --family ipad"
 endfunction
 
 map <leader>b :call BuildAndRunXcode()<cr>

@@ -1,7 +1,10 @@
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
 PATH=~/bin:/usr/local/sbin:/usr/local/bin:$PATH
-                                                                               
+PATH="$(brew --prefix josegonzalez/php/php54)/bin:$PATH"
+
+autoload /usr/share/zsh/4.3.11/functions/*(:t)
+
 export CLICOLOR=true
 export GREP_OPTIONS="--color"
 
