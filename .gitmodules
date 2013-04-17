@@ -31,3 +31,6 @@
 [submodule ".vim/bundle/todo.txt-vim"]
 	path = .vim/bundle/todo.txt-vim
 	url = https://github.com/davidoc/todo.txt-vim.git
+[submodule ".vim/bundle/csspretty"]
+	path = .vim/bundle/csspretty
+	url = https://github.com/vim-scripts/Css-Pretty.git
