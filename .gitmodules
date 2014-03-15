@@ -34,3 +34,6 @@
 [submodule ".vim/bundle/csspretty"]
 	path = .vim/bundle/csspretty
 	url = https://github.com/vim-scripts/Css-Pretty.git
+[submodule ".zprompt-pure"]
+	path = .zprompt-pure
+	url = https://github.com/sindresorhus/pure.git

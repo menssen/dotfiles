@@ -105,9 +105,9 @@ set modelines=0
 
 
 " Always use 4 spaces instead of tabs
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 
 " Keep a really long command/search history
@@ -232,7 +232,7 @@ let g:ctrlp_working_path_mode = 0
 "
 " Instead use custom ignore regex
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/](vendor|app\/cache)$',
+    \ 'dir': '\v[\/](vendor|app\/cache|node_modules)$',
     \ }
 
 " Enable syntastic error signs in the line number column

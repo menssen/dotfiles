@@ -1,9 +1,11 @@
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
-PATH=~/bin:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:$PATH
-PATH="$(brew --prefix josegonzalez/php/php54)/bin:$PATH"
+PATH=~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:$PATH
+#PATH="$(brew --prefix josegonzalez/php/php54)/bin:$PATH"
 
-autoload /usr/share/zsh/4.3.11/functions/*(:t)
+fpath=(~/.zfunctions $fpath)
+
+autoload /usr/share/zsh/5.0.2/functions/*(:t)
 
 export CLICOLOR=true
 export GREP_OPTIONS="--color"
@@ -17,8 +19,10 @@ export SVN_EDITOR=vim
 export EDITOR=vim
 export VISUAL=vim
 
-autoload -U compinit
+autoload -U compinit promptinit
 compinit
+promptinit
+prompt pure
 setopt completealiases
 zstyle ':completion:*' menu select
 
@@ -39,7 +43,7 @@ fi
 alias 'dus=du -ms * | sort -n'
 alias 't=todo.sh'
 alias 'vt=vim ~/Dropbox/todo/todo.txt'
-
+alias 'glog=git log --all --graph --pretty=format:"%h %Cblue%cN %Cgreen%cr %Creset%s %n%Cred%d"'
 n() {
     if [[ $# < 1 ]]; then
         vim ~/Dropbox/Notes/scratch.md -c "cd ~/Dropbox/Notes"
