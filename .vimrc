@@ -22,13 +22,6 @@
 " vim-commentary
 " git clone git://github.com/tpope/vim-commentary.git ~/.vim/bundle/vim-commentary
 
-" Ack extension
-" Install from macports via (or look up another method)
-" sudo port install p5-app-ack
-"
-" Then install vim extension via
-" git clone https://github.com/mileszs/ack.vim.git ~/.vim/bundle/ack
-
 " Define :Bclose to close a buffer without closing a window using
 " the first script on
 " http://vim.wikia.com/wiki/Deleting_a_buffer_without_closing_the_window
@@ -98,17 +91,29 @@ colorscheme solarized
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
 " via Gary Bernhardt
-set t_ti= t_te=
+" set t_ti= t_te=
 
 " Kill some security exploits and also modelines are a dumb idea
 set modelines=0
 
 
-" Always use 4 spaces instead of tabs
+" Switches between 2 and four space indents
+set expandtab
+function! s:IndentTwo(...)
+  set tabstop=2
+  set shiftwidth=2
+  set softtabstop=2
+endfunction
+command! IndentTwo call <SID>IndentTwo()
+function! s:IndentFour(...)
+  set tabstop=4
+  set shiftwidth=4
+  set softtabstop=4
+endfunction
+command! IndentFour call <SID>IndentFour()
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set expandtab
 
 " Keep a really long command/search history
 set history=1000
@@ -158,7 +163,7 @@ set wildmode=longest,list
 
 " Write a temporary backup file before trying to save a file.  I think this is
 " the default, but anyway
-set writebackup
+set nowritebackup
 
 " Stores undo info in a file so that it persists after vim closes
 " Need to have ~/.vim/undo created
@@ -232,7 +237,7 @@ let g:ctrlp_working_path_mode = 0
 "
 " Instead use custom ignore regex
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/](vendor|app\/cache|node_modules)$',
+    \ 'dir': '\v[\/](build-app|build-web|release-app|release-web|build-phonegap|release-phonegap|node_modules|vendor|app\/cache)$',
     \ }
 
 " Enable syntastic error signs in the line number column
@@ -309,17 +314,6 @@ nnoremap <leader>w :set nowrap!<cr>
 
 " Map ,t to tidy up files based on file type
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!json_xs -f json -t json-pretty<cr>
-
-
-" Ack with smart directory ignore rules
-function! Smack(pattern)
-    exec ':Ack --ignore cache --ignore vendor ' . a:pattern
-endfunction
-command! -nargs=? Smack call Smack('<args>')
-
-" Use ag (the silver searcher!) instead of ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
 
 " Rename Current File
 " (Stolen from Gary Bernhardt)
