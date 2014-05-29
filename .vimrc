@@ -118,9 +118,11 @@ set softtabstop=2
 " Keep a really long command/search history
 set history=1000
 
-" Stop littering .swp files everywhere.  I prefer this along with persistent
-" undo and autosave instead of having the crash-protection they provide.
+" Don't write any backup or swap files ever.
+" They're more annoying than they are safe.
 set noswapfile
+set nowritebackup
+set nobackup
 
 " Allow open buffers that are not visible
 set hidden
@@ -161,17 +163,10 @@ set showcmd
 set wildmenu
 set wildmode=longest,list
 
-" Write a temporary backup file before trying to save a file.  I think this is
-" the default, but anyway
-set nowritebackup
-
 " Stores undo info in a file so that it persists after vim closes
 " Need to have ~/.vim/undo created
 set undofile
 set undodir=~/.vim/undo
-
-" Make command line 2 lines tall
-set cmdheight=2
 
 " Turn off vim-mode regexes because nobody knows how they work
 nnoremap / /\v
@@ -229,13 +224,9 @@ let g:ctrlp_persistent_input = 0
 " Don't let ctrlp change working directory
 let g:ctrlp_working_path_mode = 0
 
-" CtrlP should ignore the cache and vendor directories (symfony)
-" set wildignore+=*/app/cache/*
-" set wildignore+=*/vendor/*
-" And the build directory (xcode)
-" set wildignore+=*/build/*
+" CtrlP should ignore some files
 "
-" Instead use custom ignore regex
+" This is kind of a mess. Better solution?
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v[\/](build-app|build-web|release-app|release-web|build-phonegap|release-phonegap|node_modules|vendor|app\/cache)$',
     \ }
@@ -263,10 +254,6 @@ let mapleader = ","
 " (Stolen from Gary Bernhardt)
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
-
-" Copy and paste from system clipboard
-nnoremap <leader>p "*p
-nnoremap <leader>y "*y
 
 " Use leader-s to automatically enter search-and-replace when in visual
 vnoremap <leader>s :s/\v
@@ -313,7 +300,7 @@ noremap <c-y> 5<c-y>
 nnoremap <leader>w :set nowrap!<cr>
 
 " Map ,t to tidy up files based on file type
-autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!json_xs -f json -t json-pretty<cr>
+autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
 
 " Rename Current File
 " (Stolen from Gary Bernhardt)
@@ -349,6 +336,14 @@ autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
+
+
+
+
+" I don't use anything below here anymore.
+" Rethink?
+
+
 
 " Switch between spec and src
 " Modified from Gary Bernhardt
