@@ -40,6 +40,9 @@
 " Indent Guides installed via
 " git clone https://github.com/nathanaelkane/vim-indent-guides.git ~/.vim/bundle/vim-indent-guides
 
+" Ack frontend installed via
+" git clone git@github.com:mileszs/ack.vim.git
+
 " Need to create directory for undo files
 " mkdir -p ~/.vim/undo
 
@@ -63,6 +66,9 @@ filetype plugin indent on
 " Pathogen Bundle Manager
 call pathogen#infect()
 
+" Use ag instead of ack
+let g:ackprg = 'ag --vimgrep'
+
 " Make all text files markdown
 autocmd BufNewFile,BufRead *.{txt,text} set filetype=markdown
 
@@ -84,7 +90,7 @@ command! FixColors call FixColors()
 
 " Colors, solarized theme.  See above for note.
 syntax enable
-set background=dark
+set background=light
 colorscheme solarized
 
 
@@ -228,20 +234,16 @@ let g:ctrlp_working_path_mode = 0
 "
 " This is kind of a mess. Better solution?
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/](build-app|build-web|release-app|release-web|build-phonegap|release-phonegap|node_modules|vendor|app\/cache)$',
+    \ 'dir': '\v[\/](target|build-app|build-web|release-app|release-web|build-phonegap|release-phonegap|node_modules|vendor|app\/cache)$',
     \ }
-
-" Enable syntastic error signs in the line number column
-let g:syntastic_enable_signs = 1
-
 
 " Shrink inactive splits to 10 rows and 20 cols
 set winwidth=20
 set winminwidth=20
 set winwidth=120
-set winheight=10
-set winminheight=10
-set winheight=999
+" set winheight=10
+" set winminheight=10
+" set winheight=999
 
 " Improve completion menu
 
@@ -324,9 +326,9 @@ function! InsertTabWrapper()
     if !col || getline('.')[col - 1] !~ '\k'
         return "\<tab>"
     else
-        return "\<c-p>"
-    endif
-endfunction
+        return "\<c-x>\<c-u>"
+      endiff
+    endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
@@ -376,6 +378,7 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " Modified from Gary Bernhardt
 map <leader>t :call RunTestFile()<cr>
 map <leader>a :call RunTests('')<cr>
+map <leader>j :JUnit %<cr>
 
 function! SetTestFile()
     let current_file = expand("%")
@@ -390,6 +393,7 @@ function! SetTestFile()
         let t:dpm_test_binary="bin/phpunit -c app/ --color"
     endif
     let t:dpm_test_file=current_file
+    let t:in_java = match(current_file, 'java') != -1
 endfunction
 
 function! RunTestFile(...)
@@ -403,7 +407,7 @@ function! RunTestFile(...)
     if (!in_test_file)
         let in_test_file = match(expand("%"), 'Feature') != -1
     end
-    if (in_test_file)
+    if (!in_test_file)
         let in_test_file = match(expand("%"), 'Context') == -1
     end
     if (!in_test_file)
@@ -414,6 +418,7 @@ function! RunTestFile(...)
     elseif !exists("t:dpm_test_file")
         return
     end
+
     call RunTests(t:dpm_test_file . command_suffix)
 endfunction
 
@@ -429,11 +434,24 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
 
-    exec ":!" . t:dpm_test_binary . " " . a:filename
+    if (t:in_java)
+      exec ":JUnit " . a:filename
+    else
+      exec ":!" . t:dpm_test_binary . " " . a:filename
+    end
 endfunction
 
-function! BuildAndRunXcode()
-    exec ":!xcodebuild -target \"Digideck\" -configuration Debug -project \"Digideck.xcodeproj\" -sdk iphonesimulator6.1 && ios-sim launch \"build/Debug-iphonesimulator/Digideck.app\" --family ipad"
+function! CompileTally()
+  let project = split(split(expand("%"), "java/")[1], "/")[0]
+  let dir = split(expand("%"), "java/")[0] . "java/"
+  exec ":!cd " . dir . " && mvn compile -Pcore-only"
 endfunction
 
-map <leader>b :call BuildAndRunXcode()<cr>
+" function! CompileHyatt()
+"   let project = split(split(expand("%"), "java/")[1], "/")[0]
+"   let dir = split(expand("%"), "java/")[0] . "java/"
+"   exec ":!cd " . dir . " && mvn compile --projects " . project
+" endfunction
+
+map <leader>c :call CompileTally()<cr>
+" map <leader>h :call CompileHyatt()<cr>

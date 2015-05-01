@@ -1,12 +1,11 @@
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
 
-PATH=~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:$PATH
-PATH="$(brew --prefix josegonzalez/php/php54)/bin:$PATH"
+PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:$PATH
 
 fpath=(~/.zfunctions $fpath)
 
-autoload /usr/share/zsh/5.0.2/functions/*(:t)
+autoload /usr/share/zsh/5.0.5/functions/*(:t)
 autoload -U compinit promptinit
 
 compinit
@@ -45,9 +44,15 @@ if [[ "$TERM" != "dumb" ]]; then
 fi
 
 alias 'dus=du -ms * | sort -n'
-alias 't=todo.sh'
+# alias 't=todo.sh'
 alias 'vt=vim ~/Dropbox/todo/todo.txt'
 alias 'glog=git log --all --graph --pretty=format:"%h %Cblue%cN %Cgreen%cr %Creset%s %n%Cred%d"'
+alias 'glogg=git log --graph --pretty=format:"%h %Cblue%cN %Cgreen%cr %Creset%s %n%Cred%d"'
+
+install_all_packages() {
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew install git zsh node zsh-syntax-highlighting
+}
 
 n() {
     if [[ $# < 1 ]]; then
@@ -60,10 +65,21 @@ n() {
         IFS="$SAVE_IFS"
 
         if [[ "$ARGSJOIN" == *.* ]]; then
-            vim ~/Dropbox/Notes/$ARGSJOIN -c "cd ~/Dropbox/Notes"
+            vim "~/Dropbox/Notes/$ARGSJOIN" -c "cd ~/Dropbox/Notes"
         else
-            vim ~/Dropbox/Notes/$ARGSJOIN.md -c "cd ~/Dropbox/Notes"
+            vim "~/Dropbox/Notes/$ARGSJOIN.md" -c "cd ~/Dropbox/Notes"
         fi
     fi
 }
 
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/Users/dmenssen/.gvm/bin/gvm-init.sh" ]] && source "/Users/dmenssen/.gvm/bin/gvm-init.sh"
+
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home
+export HOMEBREW_GITHUB_API_TOKEN=2fcfc6b2cd8067ddf96c79d60826787e7e19ad1b
+export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
+
+export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
