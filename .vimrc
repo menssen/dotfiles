@@ -1,53 +1,14 @@
-" FIRST, install pathogen via
-" mkdir -p ~/.vim/autoload ~/.vim/bundle
-" curl 'www.vim.org/scripts/download_script.php?src_id=16224' > ~/.vim/autoload/pathogen.vim
-
-" 'Solarized' Color Scheme installed via
-" git clone https://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/solarized
-" 
-" NOTE
-" Must also install solarized theme for Lion Terminal.app (or other terminal)
-" for this to look right at all when running vim from a terminal
-" https://github.com/tomislav/osx-lion-terminal.app-colors-solarized
+" All required plugins are submodules of this git repository
 "
-" Other Solarized profiles can be found at
-" http://ethanschoonover.com/solarized
-
-" Markdown support installed via
-" git clone https://github.com/hallison/vim-markdown.git ~/.vim/bundle/markdown
-
-" CtrlP fuzzy file finder extension installed via
-" git clone https://github.com/kien/ctrlp.vim.git ~/.vim/bundle/ctrlp
-
-" vim-commentary
-" git clone git://github.com/tpope/vim-commentary.git ~/.vim/bundle/vim-commentary
-
+" Be sure to install Solarized terminal color scheme
+"
 " Define :Bclose to close a buffer without closing a window using
 " the first script on
 " http://vim.wikia.com/wiki/Deleting_a_buffer_without_closing_the_window
 " and placing it in
 " ~/.vim/bundle/bclose/plugin/bclose.vim
-
-" Repeat plugin to repeat plugin actions via
-" git clone https://github.com/tpope/vim-repeat.git ~/.vim/bundle/repeat
-
-" Surround plugin to add 'surrounding' as a vim context ('s') via
-" git clone https://github.com/tpope/vim-surround.vim !/.vim/bundle/surround
-
-" Syntastic syntax checker installed via
-" git clone https://github.com/scrooloose/syntastic.git ~/.vim/bundle/syntastic
-
-" Indent Guides installed via
-" git clone https://github.com/nathanaelkane/vim-indent-guides.git ~/.vim/bundle/vim-indent-guides
-
-" Ack frontend installed via
-" git clone git@github.com:mileszs/ack.vim.git
-
-" Need to create directory for undo files
-" mkdir -p ~/.vim/undo
-
-
-" CUSTOM CONFIGURATION
+"
+" (also checked into this repo)
 
 " Use zsh
 set shell=zsh
@@ -84,7 +45,7 @@ function! FixColors()
         let g:solarized_termcolors = 256
     endif
     colorscheme solarized
-    set background=dark
+    set background=light
 endfunction
 command! FixColors call FixColors()
 
@@ -93,33 +54,8 @@ syntax enable
 set background=light
 colorscheme solarized
 
-
-" Prevent Vim from clobbering the scrollback buffer. See
-" http://www.shallowsky.com/linux/noaltscreen.html
-" via Gary Bernhardt
-" set t_ti= t_te=
-
 " Kill some security exploits and also modelines are a dumb idea
 set modelines=0
-
-
-" Switches between 2 and four space indents
-set expandtab
-function! s:IndentTwo(...)
-  set tabstop=2
-  set shiftwidth=2
-  set softtabstop=2
-endfunction
-command! IndentTwo call <SID>IndentTwo()
-function! s:IndentFour(...)
-  set tabstop=4
-  set shiftwidth=4
-  set softtabstop=4
-endfunction
-command! IndentFour call <SID>IndentFour()
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
 
 " Keep a really long command/search history
 set history=1000
@@ -153,7 +89,7 @@ set cursorline
 " Terminal.app can't)
 set mouse=a
 
-" Make backspace also delete indents d line endings
+" Make backspace also delete indents and line endings
 set backspace=indent,eol,start
 
 " Always show the status line above the command line
@@ -168,11 +104,6 @@ set showcmd
 " Make tab completion a lot smarter (this mostly makes it work like zsh)
 set wildmenu
 set wildmode=longest,list
-
-" Stores undo info in a file so that it persists after vim closes
-" Need to have ~/.vim/undo created
-set undofile
-set undodir=~/.vim/undo
 
 " Turn off vim-mode regexes because nobody knows how they work
 nnoremap / /\v
@@ -237,25 +168,39 @@ let g:ctrlp_custom_ignore = {
     \ 'dir': '\v[\/](target|build-app|build-web|release-app|release-web|build-phonegap|release-phonegap|node_modules|vendor|app\/cache)$',
     \ }
 
-" Shrink inactive splits to 10 rows and 20 cols
-set winwidth=20
-set winminwidth=20
-set winwidth=120
-" set winheight=10
-" set winminheight=10
-" set winheight=999
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
 
-" Improve completion menu
+" Shrink inactive splits to 10 rows and 20 cols
+set winwidth=10
+set winminwidth=10
+set winwidth=120
+
+" Use ag to make CtrlP faster
+let g:ctrlp_use_caching = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
 
 " CUSTOM KEY BINDINGS
 
 " Change the leader key to comma
-let mapleader = ","
+let mapleader = " "
 
-" Open a file in the same directory as the current file
-" (Stolen from Gary Bernhardt)
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>e :edit %%
+" Use leader prefixed y/p for system clipboard
+vmap <Leader>y "*y
+vmap <Leader>d "*d
+nmap <Leader>p "*p
+nmap <Leader>P "*P
+vmap <Leader>p "*p
+vmap <Leader>P "*P
+
+" Jump to end of selection after pasting
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
 
 " Use leader-s to automatically enter search-and-replace when in visual
 vnoremap <leader>s :s/\v
@@ -269,9 +214,9 @@ map <down> <nop>
 map <left> <nop>
 map <right> <nop>
 
-" Shortcuts for creating splits
+" Shortcuts for creating vertical splits
+" Had a horizontal one in here but never used it
 nnoremap <leader>v <C-w>v<C-w>l<C-w>L
-nnoremap <leader>h <C-w>s<C-w>j
 
 " Easier split navigation
 nnoremap <c-h> <c-w>h
@@ -284,6 +229,9 @@ nnoremap <silent> <leader>d :Bclose<cr>
 
 " Set CtrlP map to ctrl-f because it's easier to hit
 let g:ctrlp_map = '<c-f>'
+
+" Use ag for grep
+set grepprg=ag\ --nogroup\ --nocolor
 
 " Map <leader>f to open CtrlP in buffer mode
 nnoremap <silent> <leader>f :CtrlPBuffer<cr>
@@ -304,6 +252,11 @@ nnoremap <leader>w :set nowrap!<cr>
 " Map ,t to tidy up files based on file type
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
 
+" Eclim shortcuts
+map <leader>jj :JavaSearch<cr>:cc 1<cr>:ccl<cr>
+map <leader>js :JavaSearch com.denali.core*
+map <leader>ju :JUnit %<cr>
+
 " Rename Current File
 " (Stolen from Gary Bernhardt)
 function! RenameFile()
@@ -316,7 +269,6 @@ function! RenameFile()
     endif
 endfunction
 map <leader>n :call RenameFile()<cr>
-
 
 " Use Tab for indent if on a blank/whitespace line,
 " or completion if there is text entered
@@ -340,118 +292,3 @@ autocmd BufReadPost *
     \ endif
 
 
-
-
-" I don't use anything below here anymore.
-" Rethink?
-
-
-
-" Switch between spec and src
-" Modified from Gary Bernhardt
-function! OpenTestAlternate()
-    let new_file = AlternateForCurrentFile()
-    exec ':e ' . new_file
-endfunction
-
-function! AlternateForCurrentFile()
-    let current_file = expand("%")
-    let new_file = current_file
-    let in_spec = match(current_file, '/specs/') != -1
-    let going_to_spec = !in_spec
-    let in_js = match(current_file, 'javascripts') != -1
-    if going_to_spec
-        if in_js
-            let new_file = substitute(new_file, '/src/', '/specs/', '')
-        endif
-    else
-        if in_js
-            let new_file = substitute(new_file, '/specs/', '/src/', '')
-        endif
-    endif
-    return new_file
-endfunction
-nnoremap <leader>. :call OpenTestAlternate()<cr>
-
-
-" Run Tests
-" Modified from Gary Bernhardt
-map <leader>t :call RunTestFile()<cr>
-map <leader>a :call RunTests('')<cr>
-map <leader>j :JUnit %<cr>
-
-function! SetTestFile()
-    let current_file = expand("%")
-    let t:dpm_test_binary="bin/behat"
-    let in_js = match(current_file, 'js') != -1
-    if in_js
-        let current_file = substitute(current_file, '^.*spec/', '', '')
-        let current_file = substitute(current_file, '\.js$', '', '')
-        let t:dpm_test_binary="bin/jasmine"
-    endif
-    if match(current_file, 'php') != -1
-        let t:dpm_test_binary="bin/phpunit -c app/ --color"
-    endif
-    let t:dpm_test_file=current_file
-    let t:in_java = match(current_file, 'java') != -1
-endfunction
-
-function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    end
-
-    let in_test_file = match(expand("%"), '/spec/') != -1
-    if (!in_test_file)
-        let in_test_file = match(expand("%"), 'Feature') != -1
-    end
-    if (!in_test_file)
-        let in_test_file = match(expand("%"), 'Context') == -1
-    end
-    if (!in_test_file)
-        let in_test_file = match(expand("%"), 'Test') != -1
-    end
-    if in_test_file
-        call SetTestFile()
-    elseif !exists("t:dpm_test_file")
-        return
-    end
-
-    call RunTests(t:dpm_test_file . command_suffix)
-endfunction
-
-function! RunTests(filename)
-    :w
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;echo;
-
-    if (t:in_java)
-      exec ":JUnit " . a:filename
-    else
-      exec ":!" . t:dpm_test_binary . " " . a:filename
-    end
-endfunction
-
-function! CompileTally()
-  let project = split(split(expand("%"), "java/")[1], "/")[0]
-  let dir = split(expand("%"), "java/")[0] . "java/"
-  exec ":!cd " . dir . " && mvn compile -Pcore-only"
-endfunction
-
-" function! CompileHyatt()
-"   let project = split(split(expand("%"), "java/")[1], "/")[0]
-"   let dir = split(expand("%"), "java/")[0] . "java/"
-"   exec ":!cd " . dir . " && mvn compile --projects " . project
-" endfunction
-
-map <leader>c :call CompileTally()<cr>
-" map <leader>h :call CompileHyatt()<cr>

@@ -44,10 +44,11 @@ if [[ "$TERM" != "dumb" ]]; then
 fi
 
 alias 'dus=du -ms * | sort -n'
-# alias 't=todo.sh'
-alias 'vt=vim ~/Dropbox/todo/todo.txt'
-alias 'glog=git log --all --graph --pretty=format:"%h %Cblue%cN %Cgreen%cr %Creset%s %n%Cred%d"'
-alias 'glogg=git log --graph --pretty=format:"%h %Cblue%cN %Cgreen%cr %Creset%s %n%Cred%d"'
+# alias 'glog=git log --all --graph --pretty=format:"%h %Cblue%cN %Cgreen%ci %Creset%s %n%Cred%d"'
+# alias 'glogg=git log --graph --pretty=format:"%h %Cblue%cN %Cgreen%ci %Creset%s %n%Cred%d"'
+
+alias 'glog=git log --all --graph --pretty=format:"%Cred%d%Creset %h %Cblue%cN %Cgreen%ci %Creset%s"'
+alias 'glogg=git log --graph --pretty=format:"%Cred%d %h %Cblue%cN %Cgreen%ci %Creset%s"'
 
 install_all_packages() {
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
