@@ -257,6 +257,10 @@ map <leader>jj :JavaSearch<cr>:cc 1<cr>:ccl<cr>
 map <leader>js :JavaSearch com.denali.core*
 map <leader>ju :JUnit %<cr>
 
+" expandregion
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
 " Rename Current File
 " (Stolen from Gary Bernhardt)
 function! RenameFile()
