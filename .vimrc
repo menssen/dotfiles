@@ -13,6 +13,9 @@
 " Use zsh
 set shell=zsh
 
+" set timeouts to get to normal mode faster
+set timeoutlen=1000 ttimeoutlen=0
+
 " Disable silly vi-compatibility
 set nocompatible
 
@@ -187,7 +190,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 " CUSTOM KEY BINDINGS
 
 " Change the leader key to comma
-let mapleader = " "
+let mapleader = ","
 
 " Use leader prefixed y/p for system clipboard
 vmap <Leader>y "*y
@@ -246,16 +249,24 @@ nnoremap <c-o> o<esc>
 noremap <c-e> 5<c-e>
 noremap <c-y> 5<c-y>
 
+" More reasonable scroll keys
+map J <c-e>
+map K <c-y>
+
 " Turn on and off textwrap
 nnoremap <leader>w :set nowrap!<cr>
 
 " Map ,t to tidy up files based on file type
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
+autocmd BufNewFile,BufRead *.{xml} nnoremap <leader>y :%!xmllint --format -<cr>
 
 " Eclim shortcuts
-map <leader>jj :JavaSearch<cr>:cc 1<cr>:ccl<cr>
-map <leader>js :JavaSearch com.denali.core*
+map <space> :JavaSearchContext<cr><c-w>L
+map <leader>js :JavaSearch<cr>
 map <leader>ju :JUnit %<cr>
+map <leader>jc :JavaCorrect<cr>
+map <leader>ji :JavaImport<cr>
+map <leader>jf :%JavaFormat<cr>
 
 " expandregion
 vmap v <Plug>(expand_region_expand)

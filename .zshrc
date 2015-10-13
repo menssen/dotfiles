@@ -5,7 +5,7 @@ PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/a
 
 fpath=(~/.zfunctions $fpath)
 
-autoload /usr/share/zsh/5.0.5/functions/*(:t)
+autoload /usr/share/zsh/5.0.8/functions/*(:t)
 autoload -U compinit promptinit
 
 compinit
@@ -52,7 +52,7 @@ alias 'glogg=git log --graph --pretty=format:"%Cred%d %h %Cblue%cN %Cgreen%ci %C
 
 install_all_packages() {
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  brew install git zsh node zsh-syntax-highlighting
+  brew install git zsh node zsh-syntax-highlighting jq vim the_silver_searcher
 }
 
 n() {
