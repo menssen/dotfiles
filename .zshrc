@@ -73,14 +73,20 @@ n() {
     fi
 }
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/Users/dmenssen/.gvm/bin/gvm-init.sh" ]] && source "/Users/dmenssen/.gvm/bin/gvm-init.sh"
-
-
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home
+export CATALINA_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
 export HOMEBREW_GITHUB_API_TOKEN=2fcfc6b2cd8067ddf96c79d60826787e7e19ad1b
 export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
 
 export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
+
+export NVM_DIR="/Users/34617/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# export SDKMAN_DIR="/Users/34617/.sdkman"
+# [[ -s "/Users/34617/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/34617/.sdkman/bin/sdkman-init.sh"
+
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
