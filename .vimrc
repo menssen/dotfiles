@@ -260,13 +260,26 @@ nnoremap <leader>w :set nowrap!<cr>
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
 autocmd BufNewFile,BufRead *.{xml} nnoremap <leader>y :%!xmllint --format -<cr>
 
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 " Eclim shortcuts
-map <space> :JavaSearchContext<cr><c-w>L
-map <leader>js :JavaSearch<cr>
-map <leader>ju :JUnit %<cr>
-map <leader>jc :JavaCorrect<cr>
-map <leader>ji :JavaImport<cr>
-map <leader>jf :%JavaFormat<cr>
+" map <space> :JavaSearchContext<cr><c-w>L
+" map <leader>js :JavaSearch<cr>
+" map <leader>ju :JUnit %<cr>
+" map <leader>jc :JavaCorrect<cr>
+" map <leader>ji :JavaImport<cr>
+" map <leader>jf :%JavaFormat<cr>
+
+" javacomplete2
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " expandregion
 vmap v <Plug>(expand_region_expand)
