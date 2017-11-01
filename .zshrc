@@ -5,7 +5,7 @@ PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/a
 
 fpath=(~/.zfunctions $fpath)
 
-autoload /usr/share/zsh/5.0.8/functions/*(:t)
+autoload /usr/share/zsh/5.2/functions/*(:t)
 autoload -U compinit promptinit
 
 compinit
@@ -49,6 +49,7 @@ alias 'dus=du -ms * | sort -n'
 
 alias 'glog=git log --all --graph --pretty=format:"%Cred%d%Creset %h %Cblue%cN %Cgreen%ci %Creset%s"'
 alias 'glogg=git log --graph --pretty=format:"%Cred%d %h %Cblue%cN %Cgreen%ci %Creset%s"'
+alias 'vim=nvim'
 
 install_all_packages() {
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -90,3 +91,5 @@ export NVM_DIR="/Users/34617/.nvm"
 # [[ -s "/Users/34617/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/34617/.sdkman/bin/sdkman-init.sh"
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+eval $(minishift oc-env)

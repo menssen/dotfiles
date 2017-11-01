@@ -109,8 +109,8 @@ set wildmenu
 set wildmode=longest,list
 
 " Turn off vim-mode regexes because nobody knows how they work
-nnoremap / /\v
-vnoremap / /\v
+" nnoremap / /\v
+" vnoremap / /\v
 
 " Searches should be case insensitive unless there is a capital letter
 set ignorecase
@@ -209,7 +209,7 @@ nnoremap <silent> p p`]
 vnoremap <leader>s :s/\v
 
 " Clear highlighted search
-nnoremap <enter> :noh<cr>
+nnoremap <space> :noh<cr>
 
 " Force use of hjkl instead of arrows to break bad habits
 map <up> <nop>
@@ -260,23 +260,28 @@ nnoremap <leader>w :set nowrap!<cr>
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
 autocmd BufNewFile,BufRead *.{xml} nnoremap <leader>y :%!xmllint --format -<cr>
 
-" Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" let g:ale_open_list = 1
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" " Syntastic settings
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_javascript_checkers = ['eslint']
 
 " Eclim shortcuts
-" map <space> :JavaSearchContext<cr><c-w>L
-" map <leader>js :JavaSearch<cr>
-" map <leader>ju :JUnit %<cr>
-" map <leader>jc :JavaCorrect<cr>
-" map <leader>ji :JavaImport<cr>
-" map <leader>jf :%JavaFormat<cr>
+" nnoremap ] :JavaSearchContext<cr><c-w>L
+" nnoremap [ :JavaSearch<cr>
+" nnoremap <leader>ju :JUnit %<cr>
+" nnoremap <leader>jc :JavaCorrect<cr>
+" nnoremap <leader>ji :JavaImport<cr>
 
 " javacomplete2
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
@@ -284,6 +289,8 @@ autocmd FileType java setlocal omnifunc=javacomplete#Complete
 " expandregion
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+
+set tabstop=2
 
 " Rename Current File
 " (Stolen from Gary Bernhardt)
@@ -303,7 +310,7 @@ map <leader>n :call RenameFile()<cr>
 " (Stolen from Gary Benhardt)
 function! InsertTabWrapper()
     let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
+    if !col || getline('.')[col - 1] =~ '\s'
         return "\<tab>"
     else
         return "\<c-x>\<c-u>"
@@ -311,6 +318,9 @@ function! InsertTabWrapper()
     endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
+
+" Don't show completion preview window
+set completeopt-=preview
 
 " Files should open with cursor at same line as when closed
 " From vim docs, via Gary Bernhardt
