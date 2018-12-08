@@ -1,11 +1,11 @@
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
 
-PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:$PATH
+PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
 
 fpath=(~/.zfunctions $fpath)
 
-autoload /usr/share/zsh/5.2/functions/*(:t)
+autoload /usr/share/zsh/5.3/functions/*(:t)
 autoload -U compinit promptinit
 
 compinit
@@ -47,8 +47,8 @@ alias 'dus=du -ms * | sort -n'
 # alias 'glog=git log --all --graph --pretty=format:"%h %Cblue%cN %Cgreen%ci %Creset%s %n%Cred%d"'
 # alias 'glogg=git log --graph --pretty=format:"%h %Cblue%cN %Cgreen%ci %Creset%s %n%Cred%d"'
 
-alias 'glog=git log --all --graph --pretty=format:"%Cred%d%Creset %h %Cblue%cN %Cgreen%ci %Creset%s"'
-alias 'glogg=git log --graph --pretty=format:"%Cred%d %h %Cblue%cN %Cgreen%ci %Creset%s"'
+alias 'glog=git log --all --graph --pretty=format:"%Cred%d%Creset %h %Cblue%aN %Cgreen%ai %Creset%s"'
+alias 'glogg=git log --graph --pretty=format:"%Cred%d%Creset %h %Cblue%aN %Cgreen%ai %Creset%s"'
 alias 'vim=nvim'
 
 install_all_packages() {
@@ -76,12 +76,12 @@ n() {
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-export CATALINA_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
+# export CATALINA_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
 export HOMEBREW_GITHUB_API_TOKEN=2fcfc6b2cd8067ddf96c79d60826787e7e19ad1b
-export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
+# export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
 
-export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
+# export MAVEN_OPTS=""
 
 export NVM_DIR="/Users/34617/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -92,4 +92,11 @@ export NVM_DIR="/Users/34617/.nvm"
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-eval $(minishift oc-env)
+# eval $(minishift oc-env)
+#
+#
+
+# TIS selenium tests
+export SELENIUM_ENV=DevEnv
+export SELENIUM_SITE_URL=http://localhost:8080
+

@@ -52,10 +52,15 @@ function! FixColors()
 endfunction
 command! FixColors call FixColors()
 
+set termguicolors
+
 " Colors, solarized theme.  See above for note.
 syntax enable
 set background=light
-colorscheme solarized
+" colorscheme solarized
+let g:two_firewatch_italics=1
+colo two-firewatch
+
 
 " Kill some security exploits and also modelines are a dumb idea
 set modelines=0
@@ -176,6 +181,8 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
+
+let g:airline_theme='twofirewatch'
 
 " Shrink inactive splits to 10 rows and 20 cols
 set winwidth=10
