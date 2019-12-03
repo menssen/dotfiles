@@ -3,6 +3,8 @@ COPYFILE_DISABLE=true
 
 PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
 
+# /usr/local/opt/terraform@0.11/bin:
+
 fpath=(~/.zfunctions $fpath)
 
 autoload /usr/share/zsh/5.3/functions/*(:t)
@@ -100,3 +102,33 @@ export NVM_DIR="/Users/34617/.nvm"
 export SELENIUM_ENV=DevEnv
 export SELENIUM_SITE_URL=http://localhost:8080
 
+alias 'vpn=sudo openconnect --user=cccfjd --csd-user=nobody --csd-wrapper=/usr/local/Cellar/openconnect/8.05/libexec/openconnect/csd-post.sh amvpn10.ingersollrand.com/tiscontractor'
+
+function delete_and_update_tag() {
+        TAG=$1
+        git push origin :${TAG}
+        git tag -d ${TAG}
+        git tag ${TAG}
+        git push origin ${TAG}
+}
+
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+
+function tf_dev() {
+        echo $1 >&2
+        export TIS_ENV='dev'
+        export TIS_REGION='us-east-1'
+        AWS_ACCESS_KEY_ID='AKIAUS536DVGJ35ZYYVA'
+        AWS_SECRET_ACCESS_KEY='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'
+        echo aws sts get-session-token --serial-number 'arn:aws:iam::315537366348:mfa/dmenssen_mfa' --token-code $1
+        response=$(aws sts get-session-token --serial-number 'arn:aws:iam::315537366348:mfa/dmenssen_mfa' --token-code $1)
+        echo $(echo "$response" | jq -r .Credentials.AccessKeyId)
+        tf=$(echo "$response" | jq -r .Credentials.AccessKeyId)
+        echo $tf
+        export TF_VAR_access_key=$(echo "$response" | jq -r .Credentials.AccessKeyId)
+        export TF_VAR_secret_key=$(echo "$response" | jq -r .Credentials.SecretAccessKey)
+        export TF_VAR_token=$(echo "$response" | jq -r .Credentials.SessionToken)
+        export AWS_ACCESS_KEY_ID=
+        export AWS_SECRET_ACCESS_KEY=
+}
