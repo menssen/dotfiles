@@ -30,6 +30,9 @@ filetype plugin indent on
 " Pathogen Bundle Manager
 call pathogen#infect()
 
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 1
+
 " Use ag instead of ack
 let g:ackprg = 'ag --vimgrep'
 
@@ -169,20 +172,13 @@ let g:ctrlp_persistent_input = 0
 " Don't let ctrlp change working directory
 let g:ctrlp_working_path_mode = 0
 
-" CtrlP should ignore some files
-"
-" This is kind of a mess. Better solution?
-let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/](target|build-app|build-web|release-app|release-web|build-phonegap|release-phonegap|node_modules|vendor|app\/cache)$',
-    \ }
+" let g:airline_powerline_fonts = 1
+" if !exists('g:airline_symbols')
+"   let g:airline_symbols = {}
+" endif
+" let g:airline_symbols.space = "\ua0"
 
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-
-let g:airline_theme='twofirewatch'
+" let g:airline_theme='twofirewatch'
 
 " Shrink inactive splits to 10 rows and 20 cols
 set winwidth=10
@@ -256,10 +252,6 @@ nnoremap <c-o> o<esc>
 noremap <c-e> 5<c-e>
 noremap <c-y> 5<c-y>
 
-" More reasonable scroll keys
-map J <c-e>
-map K <c-y>
-
 " Turn on and off textwrap
 nnoremap <leader>w :set nowrap!<cr>
 
@@ -267,7 +259,10 @@ nnoremap <leader>w :set nowrap!<cr>
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
 autocmd BufNewFile,BufRead *.{xml} nnoremap <leader>y :%!xmllint --format -<cr>
 
-" let g:ale_open_list = 1
+let g:ale_pattern_options = {'\.ts$': {'ale_enabled': 0}}
+" let g:ale_enabled = 0
+
+let g:ale_open_list = 1
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \}
@@ -291,13 +286,15 @@ let g:ale_linters = {
 " nnoremap <leader>ji :JavaImport<cr>
 
 " javacomplete2
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 " expandregion
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
-set tabstop=2
+set expandtab
+set shiftwidth=2
+set softtabstop=2
 
 " Rename Current File
 " (Stolen from Gary Bernhardt)
@@ -315,19 +312,36 @@ map <leader>n :call RenameFile()<cr>
 " Use Tab for indent if on a blank/whitespace line,
 " or completion if there is text entered
 " (Stolen from Gary Benhardt)
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] =~ '\s'
-        return "\<tab>"
-    else
-        return "\<c-x>\<c-u>"
-      endiff
-    endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
+" function! InsertTabWrapper()
+"     let col = col('.') - 1
+"     if !col || getline('.')[col - 1] =~ '\s'
+"         return "\<tab>"
+"     else
+"         g:deoplete#manual_complete()
+"     endif
+" endfunction
+" inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+" inoremap <s-tab> <c-n>
+
+" Same thing as above, except this time from deoplete docs
+inoremap <silent><expr> <TAB>
+\ <SID>check_back_space() ? "\<TAB>" :
+\ deoplete#manual_complete()
+
+inoremap <silent><expr> <C-Space> deoplete#manual_complete()
+
+"
+" inoremap <silent><expr> <C-Space> deoplete#manual_complete()
+" \ pumvisible() ? "\<C-n>" :
+" \ deoplete#manual_complete()
+
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
 
 " Don't show completion preview window
-set completeopt-=preview
+" set completeopt-=preview
 
 " Files should open with cursor at same line as when closed
 " From vim docs, via Gary Bernhardt
