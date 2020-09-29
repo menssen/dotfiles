@@ -1,7 +1,15 @@
+source ~/.zshcreds
+
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
 
 PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
+PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+
+export P4PORT=1666
+export P4HOST=TYR-RV-ENG2P.AD.CORP.GLOBAL
+export P4USER=cccfjd
+export P4PASSWD="$ZSH_CREDENTIALS_P4PASSWD"
 
 # /usr/local/opt/terraform@0.11/bin:
 
@@ -58,51 +66,17 @@ install_all_packages() {
   brew install git zsh node zsh-syntax-highlighting jq vim the_silver_searcher
 }
 
-n() {
-    if [[ $# < 1 ]]; then
-        vim ~/Dropbox/Notes/scratch.md -c "cd ~/Dropbox/Notes"
-    else
-        SAVE_IFS="$IFS"
-        IFS=" "
-        ARGS=("$@")
-        ARGSJOIN="${ARGS[*]}"
-        IFS="$SAVE_IFS"
-
-        if [[ "$ARGSJOIN" == *.* ]]; then
-            vim "~/Dropbox/Notes/$ARGSJOIN" -c "cd ~/Dropbox/Notes"
-        else
-            vim "~/Dropbox/Notes/$ARGSJOIN.md" -c "cd ~/Dropbox/Notes"
-        fi
-    fi
-}
-
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # export CATALINA_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
-export HOMEBREW_GITHUB_API_TOKEN=2fcfc6b2cd8067ddf96c79d60826787e7e19ad1b
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.7.jdk/Contents/Home
+export HOMEBREW_GITHUB_API_TOKEN="$ZSH_CREDENTIALS_HOMEBREW_GITHUB_API_TOKEN"
 # export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
 
 # export MAVEN_OPTS=""
 
-export NVM_DIR="/Users/34617/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# export SDKMAN_DIR="/Users/34617/.sdkman"
-# [[ -s "/Users/34617/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/34617/.sdkman/bin/sdkman-init.sh"
-
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# eval $(minishift oc-env)
-#
-#
-
-# TIS selenium tests
-export SELENIUM_ENV=DevEnv
-export SELENIUM_SITE_URL=http://localhost:8080
-
-alias 'vpn=sudo openconnect --user=cccfjd --csd-user=nobody --csd-wrapper=/usr/local/Cellar/openconnect/8.05/libexec/openconnect/csd-post.sh amvpn1.corp.global/tiscontractor'
+alias 'vpn=sudo openconnect --user=cccfjd --csd-user=nobody --csd-wrapper=/usr/local/Cellar/openconnect/8.10/libexec/openconnect/csd-post.sh amvpn1.corp.global/tiscontractor'
 
 function delete_and_update_tag() {
         TAG=$1
@@ -112,51 +86,18 @@ function delete_and_update_tag() {
         git push origin ${TAG}
 }
 
-function aws_dev() {
-        echo $1 >&2
-        export TIS_ENV='dev'
-        export TIS_REGION='us-east-1'
-        AWS_ACCESS_KEY_ID='redacted'
-        AWS_SECRET_ACCESS_KEY='redacted'
-        echo aws sts get-session-token --serial-number 'redacted' --token-code $1
-        response=$(aws sts get-session-token --serial-number 'redacted' --token-code $1)
-        echo $(echo "$response" | jq -r .Credentials.AccessKeyId)
-        tf=$(echo "$response" | jq -r .Credentials.AccessKeyId)
-        echo $tf
-        export TF_VAR_access_key=$(echo "$response" | jq -r .Credentials.AccessKeyId)
-        export TF_VAR_secret_key=$(echo "$response" | jq -r .Credentials.SecretAccessKey)
-        export TF_VAR_token=$(echo "$response" | jq -r .Credentials.SessionToken)
-        export AWS_ACCESS_KEY_ID=$(echo "$response" | jq -r .Credentials.AccessKeyId)
-        export AWS_SECRET_ACCESS_KEY=$(echo "$response" | jq -r .Credentials.SecretAccessKey)
-}
-
-
-# function aws_poc() {
-#         echo $1 >&2
-#         export TIS_ENV='tools'
-#         export TIS_REGION='us-east-1'
-#         AWS_ACCESS_KEY_ID='redacted'
-#         AWS_SECRET_ACCESS_KEY='redacted'
-#         echo aws sts get-session-token --serial-number 'redacted' --token-code $1
-#         response=$(aws sts get-session-token --serial-number 'redacted' --token-code $1)
-#         echo $(echo "$response" | jq -r .Credentials.AccessKeyId)
-#         tf=$(echo "$response" | jq -r .Credentials.AccessKeyId)
-#         echo $tf
-#         export TF_VAR_access_key=$(echo "$response" | jq -r .Credentials.AccessKeyId)
-#         export TF_VAR_secret_key=$(echo "$response" | jq -r .Credentials.SecretAccessKey)
-#         export TF_VAR_token=$(echo "$response" | jq -r .Credentials.SessionToken)
-#         # export AWS_ACCESS_KEY_ID=$(echo "$response" | jq -r .Credentials.AccessKeyId)
-#         # export AWS_SECRET_ACCESS_KEY=$(echo "$response" | jq -r .Credentials.SecretAccessKey)
-# }
+export AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_DEV"
+export AWS_SECRET_ACCESS_KEY="$ZSH_CREDENTIALS_AWS_SECRET_ACCESS_KEY_TIS_DEV"
 
 function aws_poc() {
         unset AWS_SESSION_TOKEN
         unset AWS_SECURITY_TOKEN
-        AWS_ACCESS_KEY_ID='redacted'
-        AWS_SECRET_ACCESS_KEY='redacted'
-        response=$(aws sts get-session-token --serial-number 'redacted' --token-code $1)
+        AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_POC_MFA"
+        AWS_SECRET_ACCESS_KEY="$ZSH_CREDENTIALS_AWS_SECRET_ACCESS_KEY_TIS_POC_MFA"
+        response=$(aws sts get-session-token --serial-number 'arn:aws:iam::216699939416:mfa/dmenssen_mfa' --token-code $1)
         export AWS_ACCESS_KEY_ID=$(echo "$response" | jq -r .Credentials.AccessKeyId)
         export AWS_SECRET_ACCESS_KEY=$(echo "$response" | jq -r .Credentials.SecretAccessKey)
         export AWS_SESSION_TOKEN=$(echo "$response" | jq -r .Credentials.SessionToken)
         export AWS_DEFAULT_REGION=us-east-1
+        export TF_VAR_region=us-east-1
 }
