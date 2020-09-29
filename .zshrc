@@ -3,8 +3,9 @@ source ~/.zshcreds
 PS1="[%n@%m %c]$ "
 COPYFILE_DISABLE=true
 
-PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
-PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+PATH=~/bin:/usr/local/sbin:/usr/local/bin:$PATH
+# PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
+# PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
 
 export P4PORT=1666
 export P4HOST=TYR-RV-ENG2P.AD.CORP.GLOBAL
@@ -15,8 +16,15 @@ export P4PASSWD="$ZSH_CREDENTIALS_P4PASSWD"
 
 fpath=(~/.zfunctions $fpath)
 
-autoload /usr/share/zsh/5.7.1/functions/*(:t)
-autoload -U compinit promptinit
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$(brew --prefix)/share/zsh/functions:$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit promptinit
+else
+  autoload /usr/share/zsh/5.7.1/functions/*(:t)
+  autoload -U compinit promptinit
+fi
 
 compinit
 promptinit
@@ -101,3 +109,8 @@ function aws_poc() {
         export AWS_DEFAULT_REGION=us-east-1
         export TF_VAR_region=us-east-1
 }
+
+
+
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
