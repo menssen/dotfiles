@@ -7,6 +7,9 @@ PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
 # Ruby
 PATH=/usr/local/lib/ruby/gems/2.7.0/bin:/usr/local/opt/ruby/bin:$PATH
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
 
 # # Terraform
 # PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
@@ -34,3 +37,7 @@ export VISUAL=nvim
 # AWS
 export AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_DEV"
 export AWS_SECRET_ACCESS_KEY="$ZSH_CREDENTIALS_AWS_SECRET_ACCESS_KEY_TIS_DEV"
+
+# Android
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
