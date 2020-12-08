@@ -61,8 +61,10 @@ set termguicolors
 syntax enable
 set background=light
 " colorscheme solarized
-let g:two_firewatch_italics=1
-colo two-firewatch
+" let g:two_firewatch_italics=1
+" colo two-firewatch
+let g:one_allow_italics = 1
+colo one
 
 
 " Kill some security exploits and also modelines are a dumb idea
