@@ -5,6 +5,9 @@ COPYFILE_DISABLE=true
 # Homebrew
 PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
+# Python
+PATH=/usr/local/Cellar/python@3.9/3.9.1_1/bin:$PATH
+
 # Ruby
 PATH=/usr/local/lib/ruby/gems/2.7.0/bin:/usr/local/opt/ruby/bin:$PATH
 export LDFLAGS="-L/usr/local/opt/ruby/lib"
