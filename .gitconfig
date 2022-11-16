@@ -3,3 +3,5 @@
 	email = dan.menssen@contractor.tranetechnologies.com
 [credential]
 	helper = osxkeychain
+[pull]
+	rebase = true

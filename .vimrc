@@ -258,16 +258,16 @@ noremap <c-y> 5<c-y>
 nnoremap <leader>w :set nowrap!<cr>
 
 " Map ,t to tidy up files based on file type
-autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python -mjson.tool<cr>
+autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python3 -mjson.tool<cr>
 autocmd BufNewFile,BufRead *.{xml} nnoremap <leader>y :%!xmllint --format -<cr>
 
-let g:ale_pattern_options = {'\.ts$': {'ale_enabled': 0}}
-" let g:ale_enabled = 0
+" let g:ale_pattern_options = {'\.ts$': {'ale_enabled': 0}}
+" " let g:ale_enabled = 0
 
-let g:ale_open_list = 1
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\}
+" let g:ale_open_list = 1
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \}
 
 " " Syntastic settings
 " set statusline+=%#warningmsg#

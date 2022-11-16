@@ -1,3 +1,58 @@
+source ~/.zshcreds
+
+COPYFILE_DISABLE=true
+
+# Homebrew
+PATH=/usr/local/sbin:/usr/local/bin:$PATH
+
+# Python
+PATH=/Users/dan/Library/Python/3.9/bin:$PATH
+PATH=/usr/local/Cellar/python@3.9/3.9.1_1/bin:$PATH
+
+
+# Ruby
+# PATH=/usr/local/lib/ruby/gems/2.7.0/bin:/usr/local/opt/ruby/bin:$PATH
+# PATH=/usr/local/lib/ruby/gems/3.1.0/bin:/usr/local/opt/ruby/bin:$PATH
+export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:/usr/local/opt/ruby@2.7/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
+# eval "$(rbenv init -)"
+
+# # Terraform
+# PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+
+# Perforce
+export P4CLIENT=p4git
+export P4PORT=TYR-RV-ENG2P.AD.CORP.GLOBAL:1666
+export P4HOST=TYR-RV-ENG2P.AD.CORP.GLOBAL
+export P4USER=u208115
+export P4PASSWD="$ZSH_CREDENTIALS_P4PASSWD"
+
+# iCloud Drive Shortcut
+export IC='/Users/dan/Library/Mobile Documents/com~apple~CloudDocs'
+
+# Always use neovim for editor
+export SVN_EDITOR=nvim
+export EDITOR=nvim
+export VISUAL=nvim
+
+# Java
+export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"
+
+# export CATALINA_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.7.jdk/Contents/Home
+# export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
+
+# AWS
+export AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_DEV"
+export AWS_SECRET_ACCESS_KEY="$ZSH_CREDENTIALS_AWS_SECRET_ACCESS_KEY_TIS_DEV"
+
+# Android
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$PATH:$ANDROID_HOME/platform-tools"
 # Configuration exports
 FPATH=~/.zfunctions:$FPATH
 export CLICOLOR=true
@@ -45,6 +100,10 @@ alias 'vim=nvim'
 alias "ic=cd '$IC'"
 alias 'vpn=sudo openconnect --user=cccfjd --csd-user=nobody --csd-wrapper=/usr/local/Cellar/openconnect/8.10/libexec/openconnect/csd-post.sh amvpn1.corp.global/tiscontractor'
 
+function ff() {
+  find . -name "*$1*"
+}
+
 # Utility functions
 function delete_and_update_tag() {
         TAG=$1
@@ -77,3 +136,14 @@ function dclean {
   echo "Removing untagged images..."
   docker rmi $(docker images --quiet --filter dangling=true) 2>/dev/null || echo "...No dead images to remove."
 }
+
+function dstop {
+        echo "Stopping all docker containers..."
+        docker stop $(docker ps --all --quiet)
+
+        echo "Stopping mutagen project..."
+        mutagen project terminate
+}
+
+# Created by `pipx` on 2021-03-29 16:55:21
+export PATH="$PATH:/Users/dan/.local/bin"

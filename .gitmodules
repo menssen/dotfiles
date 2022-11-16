@@ -56,10 +56,6 @@
 	path = .vim/bundle/yats.vim
 	url = https://github.com/HerringtonDarkholme/yats.vim.git
 	branch = master
-[submodule ".vim/bundle/nvim-typescript"]
-	path = .vim/bundle/nvim-typescript
-	url = https://github.com/mhartington/nvim-typescript.git
-	branch = master
 [submodule ".vim/bundle/deoplete.nvim"]
 	path = .vim/bundle/deoplete.nvim
 	url = https://github.com/Shougo/deoplete.nvim.git
@@ -67,3 +63,6 @@
 [submodule ".vim/bundle/vim-one"]
 	path = .vim/bundle/vim-one
 	url = git@github.com:rakr/vim-one.git
+[submodule ".vim/bundle/typescript.nvim"]
+	path = .vim/bundle/typescript.nvim
+	url = git@github.com:jose-elias-alvarez/typescript.nvim.git
