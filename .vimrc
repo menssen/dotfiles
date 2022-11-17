@@ -1,15 +1,3 @@
-" All required plugins are submodules of this git repository
-"
-" Be sure to install Solarized terminal color scheme
-"
-" Define :Bclose to close a buffer without closing a window using
-" the first script on
-" http://vim.wikia.com/wiki/Deleting_a_buffer_without_closing_the_window
-" and placing it in
-" ~/.vim/bundle/bclose/plugin/bclose.vim
-"
-" (also checked into this repo)
-
 " Use zsh
 set shell=zsh
 
@@ -27,45 +15,11 @@ endif
 " Enable filetype plugins
 filetype plugin indent on
 
-" Pathogen Bundle Manager
-call pathogen#infect()
-
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
-
-" Use ag instead of ack
-let g:ackprg = 'ag --vimgrep'
-
 " Make all text files markdown
 autocmd BufNewFile,BufRead *.{txt,text} set filetype=markdown
 
-" Enable todo.txt filetype detection
-autocmd BufNewFile,BufRead todo.txt set syntax=todo foldmethod=indent
-
-" Function to activate degraded colors for 256 color terminals without
-" solarized scheme
-function! FixColors()
-    if g:solarized_termcolors == 256
-        let g:solarized_termcolors = 16
-    else
-        let g:solarized_termcolors = 256
-    endif
-    colorscheme solarized
-    set background=light
-endfunction
-command! FixColors call FixColors()
-
 set termguicolors
-
-" Colors, solarized theme.  See above for note.
 syntax enable
-set background=light
-" colorscheme solarized
-" let g:two_firewatch_italics=1
-" colo two-firewatch
-let g:one_allow_italics = 1
-colo one
-
 
 " Kill some security exploits and also modelines are a dumb idea
 set modelines=0
@@ -98,8 +52,7 @@ set visualbell
 " Highlight the line the cursor is in
 set cursorline
 
-" Enable mouse support in terminals that can handle it (iTerm can,
-" Terminal.app can't)
+" Enable mouse support in terminals that can handle it
 set mouse=a
 
 " Make backspace also delete indents and line endings
@@ -157,45 +110,19 @@ set showbreak=\ ->\
 autocmd FileType markdown set showbreak=
 autocmd FileType txt set showbreak=
 
-" Set indent guide colors to sane values for solarized
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=8 guibg=#002b36
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=0 guibg=#073642
-
-" Increase ctrlp file limit from 10,000 to 100,000
-let g:ctrlp_max_files = 100000
-
-" CtrlP should ignore dot files
-let g:ctrlp_dotfiles = 0
-
-" CtrlP shouldn't remember the last input
-let g:ctrlp_persistent_input = 0
-
-" Don't let ctrlp change working directory
-let g:ctrlp_working_path_mode = 0
-
-" let g:airline_powerline_fonts = 1
-" if !exists('g:airline_symbols')
-"   let g:airline_symbols = {}
-" endif
-" let g:airline_symbols.space = "\ua0"
-
-" let g:airline_theme='twofirewatch'
-
 " Shrink inactive splits to 10 rows and 20 cols
 set winwidth=10
 set winminwidth=10
 set winwidth=120
-
-" Use ag to make CtrlP faster
-let g:ctrlp_use_caching = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
 
 " CUSTOM KEY BINDINGS
 
 " Change the leader key to comma
 let mapleader = ","
+
+" Use old indent guides keymappings for IndentBlankline
+nmap <Leader>ig :IndentBlanklineToggle<cr>
 
 " Use leader prefixed y/p for system clipboard
 vmap <Leader>y "*y
@@ -216,12 +143,6 @@ vnoremap <leader>s :s/\v
 " Clear highlighted search
 nnoremap <space> :noh<cr>
 
-" Force use of hjkl instead of arrows to break bad habits
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-
 " Shortcuts for creating vertical splits
 " Had a horizontal one in here but never used it
 nnoremap <leader>v <C-w>v<C-w>l<C-w>L
@@ -232,17 +153,16 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-" Shortcut to close a buffer without closing the window
-nnoremap <silent> <leader>d :Bclose<cr> 
+" Map ctrl-f to Telescope because I'm used to it
+nmap <c-f> :Telescope find_files<cr>
 
-" Set CtrlP map to ctrl-f because it's easier to hit
-let g:ctrlp_map = '<c-f>'
+" More telescope maps
+nmap <Leader>ff :Telescope buffers<cr>
+nmap <Leader>fg :Telescope live_grep<cr>
+nmap <Leader>f. :Telescope builtin<cr>
 
 " Use ag for grep
 set grepprg=ag\ --nogroup\ --nocolor
-
-" Map <leader>f to open CtrlP in buffer mode
-nnoremap <silent> <leader>f :CtrlPBuffer<cr>
 
 " Map <leader><leader> to switch to last buffer
 nnoremap <leader><leader> <c-^>
@@ -260,39 +180,6 @@ nnoremap <leader>w :set nowrap!<cr>
 " Map ,t to tidy up files based on file type
 autocmd BufNewFile,BufRead *.{json} nnoremap <leader>y :%!python3 -mjson.tool<cr>
 autocmd BufNewFile,BufRead *.{xml} nnoremap <leader>y :%!xmllint --format -<cr>
-
-" let g:ale_pattern_options = {'\.ts$': {'ale_enabled': 0}}
-" " let g:ale_enabled = 0
-
-" let g:ale_open_list = 1
-" let g:ale_linters = {
-" \   'javascript': ['eslint'],
-" \}
-
-" " Syntastic settings
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_javascript_checkers = ['eslint']
-
-" Eclim shortcuts
-" nnoremap ] :JavaSearchContext<cr><c-w>L
-" nnoremap [ :JavaSearch<cr>
-" nnoremap <leader>ju :JUnit %<cr>
-" nnoremap <leader>jc :JavaCorrect<cr>
-" nnoremap <leader>ji :JavaImport<cr>
-
-" javacomplete2
-" autocmd FileType java setlocal omnifunc=javacomplete#Complete
-
-" expandregion
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
 
 set expandtab
 set shiftwidth=2
@@ -324,26 +211,6 @@ map <leader>n :call RenameFile()<cr>
 " endfunction
 " inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 " inoremap <s-tab> <c-n>
-
-" Same thing as above, except this time from deoplete docs
-inoremap <silent><expr> <TAB>
-\ <SID>check_back_space() ? "\<TAB>" :
-\ deoplete#manual_complete()
-
-inoremap <silent><expr> <C-Space> deoplete#manual_complete()
-
-"
-" inoremap <silent><expr> <C-Space> deoplete#manual_complete()
-" \ pumvisible() ? "\<C-n>" :
-" \ deoplete#manual_complete()
-
-function! s:check_back_space() abort "{{{
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-" Don't show completion preview window
-" set completeopt-=preview
 
 " Files should open with cursor at same line as when closed
 " From vim docs, via Gary Bernhardt

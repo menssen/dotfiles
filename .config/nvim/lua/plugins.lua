@@ -9,20 +9,81 @@ return require('packer').startup(function(use)
 -- Packer can manage itself
 use 'wbthomason/packer.nvim'
 
-use 'neovim/nvim-lspconfig'
-use 'jose-elias-alvarez/typescript.nvim'
-use 'b3nj5m1n/kommentary'
-use 'nvim-lua/plenary.nvim'
-use 'jose-elias-alvarez/null-ls.nvim'
-use 'MunifTanjim/eslint.nvim'
---[[ use {
-  'tanvirtin/vgit.nvim',
-  requires = {
-    'nvim-lua/plenary.nvim'
-  }
-} ]]
+use {
+  'neovim/nvim-lspconfig',
+  config = function()
+    require('lspconfig').eslint.setup({})
+  end
+}
 
+use {
+  'jose-elias-alvarez/typescript.nvim',
+  config = function()
+    require('typescript').setup({})
+  end
+}
+
+use {
+  'numToStr/Comment.nvim',
+  config = function()
+    require('Comment').setup()
+  end
+}
+
+use {
+  'folke/trouble.nvim',
+  config = function()
+    require('trouble').setup({
+      icons = false,
+      fold_open = 'v',
+      fold_closed = '>',
+      indent_lines = false,
+      signs = {
+        error = 'error',
+        warning = 'warn',
+        hint = 'hint',
+        information = 'info',
+      },
+    })
+  end
+}
+
+-- use 'nvim-lua/plenary.nvim'
+
+use {
+  'nvim-telescope/telescope.nvim', branch = '0.1.x',
+  requires = { {'nvim-lua/plenary.nvim'} }
+}
+
+use {
+  'lukas-reineke/indent-blankline.nvim',
+  config = function()
+    require('indent_blankline').setup({
+      enabled = false
+    })
+  end
+}
+
+use {
+  'nvim-treesitter/nvim-treesitter',
+  run = function()
+    local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+  end,
+  config = function()
+    require('nvim-treesitter.configs').setup({
+      ensure_installed = "all",
+      highlight = {
+        enable = true
+      }
+    })
+  end
+}
+
+use 'sainnhe/edge'
 use 'tpope/vim-fugitive'
+use 'tpope/vim-rhubarb'
+use 'tpope/vim-surround'
+
 --
 -- Put this at the end after all plugins
 if packer_bootstrap then
