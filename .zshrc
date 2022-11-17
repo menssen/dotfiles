@@ -1,6 +1,7 @@
 source ~/.zshcreds
 
 COPYFILE_DISABLE=true
+PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 
 # Homebrew
 PATH=/usr/local/sbin:/usr/local/bin:$PATH
@@ -20,7 +21,13 @@ export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
 # eval "$(rbenv init -)"
 
 # # Terraform
+PATH=/opt/bin:~/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:$PATH
+PATH=/Users/dan/Library/Android/sdk/platform-tools:/Users/dan/Library/Android/sdk/tools:$PATH
+# PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
 # PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
+
+# homebrew ruby
+PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.0.0/bin:$PATH"
 
 # Perforce
 export P4CLIENT=p4git
@@ -68,8 +75,8 @@ fi
 
 # Load and init zsh extensions
 autoload -Uz compinit promptinit
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 compinit
 promptinit
 
@@ -104,7 +111,8 @@ function ff() {
   find . -name "*$1*"
 }
 
-# Utility functions
+# alias 'vpn=sudo openconnect --user=cccfjd --csd-user=nobody --csd-wrapper=/usr/local/Cellar/openconnect/8.10/libexec/openconnect/csd-post.sh amvpn1.corp.global/tiscontractor'
+
 function delete_and_update_tag() {
         TAG=$1
         git push origin :${TAG}
