@@ -11,15 +11,25 @@ use 'wbthomason/packer.nvim'
 
 use {
   'neovim/nvim-lspconfig',
+  requires = { {'hrsh7th/cmp-nvim-lsp'} },
   config = function()
-    require('lspconfig').eslint.setup({})
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    require('lspconfig').eslint.setup({
+      capabilities = capabilities
+    })
   end
 }
 
 use {
   'jose-elias-alvarez/typescript.nvim',
+  requires = { {'hrsh7th/cmp-nvim-lsp'} },
   config = function()
-    require('typescript').setup({})
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    require('typescript').setup({
+      server = {
+        capabilities = capabilities,
+      },
+    })
   end
 }
 
@@ -48,7 +58,32 @@ use {
   end
 }
 
--- use 'nvim-lua/plenary.nvim'
+use {
+  'hrsh7th/nvim-cmp',
+  requires = { {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-buffer'} },
+  config = function()
+    local cmp = require('cmp')
+    cmp.setup({
+      completion = {
+        autocomplete = false,
+      },
+      sources = {
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+      },
+      mapping = cmp.mapping.preset.insert({
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping.scroll_docs(5),
+        ["<C-y>"] = cmp.mapping.scroll_docs(-5),
+        ["<CR>"] = cmp.mapping.confirm(),
+      }),
+    })
+    vim.cmd [[
+      set completeopt=menu,menuone,noselect
+      highlight! default link CmpItemKind CmpItemMenuDefault
+    ]]
+  end,
+}
 
 use {
   'nvim-telescope/telescope.nvim', branch = '0.1.x',
@@ -90,3 +125,6 @@ if packer_bootstrap then
 require('packer').sync()
 end
 end)
+
+
+
