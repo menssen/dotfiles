@@ -14,6 +14,9 @@ use {
   requires = { {'hrsh7th/cmp-nvim-lsp'} },
   config = function()
     local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+    -- note: must install the vscode-langservers-extracted package globally:
+    --  npm i -g vscode-langservers-extracted
     require('lspconfig').eslint.setup({
       capabilities = capabilities
     })
