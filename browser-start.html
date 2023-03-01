@@ -1,0 +1,66 @@
+<!doctype html>
+<title>hi</title>
+  <style type="text/css">
+    body {
+        margin: 40px auto;
+        max-width: 650px;
+        line-height: 1.6;
+        font-size: 18px;
+        color: #444;
+        padding: 0 10px;
+        font-family: Monaco;
+    }
+
+    h1, h2, h3 {
+        line-height: 1.2;
+    }
+
+    ul {
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    li {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+
+    a {
+      color: #444;
+    }
+</style>
+<style type="text/css">
+</style>
+<h1></h1>
+<h2>jira</h2>
+<ul>
+  <li><a key="bd" href='https://tranecortex.atlassian.net/jira/software/projects/APP/boards/52'>board</a></li>
+  <li><a key="bl" href='https://tranecortex.atlassian.net/jira/software/projects/APP/boards/52/backlog'>backlog</a></li>
+  <li><a key="15" href='https://tranecortex.atlassian.net/projects/APP/versions/10586/tab/release-report-all-issues'>1.5.0</a></li>
+  <li><a key="is" href='https://tranecortex.atlassian.net/issues/'>issue search</a></li>
+  <li><a key="wa" href='https://tranecortex.atlassian.net/issues/?filter=10714'>watched, other projects</a></li>
+</ul>
+
+<h2>github</h2>
+<ul>
+  <li><a key="uc" href='https://github.com/nexiahome/ui-common'>ui-common</a></li>
+  <li><a key="da" href='https://github.com/nexiahome/diagnostics-app'>diagnostics-app</a></li>
+  <li><a key="dr" href='https://github.com/nexiahome/dealer-remote-config'>dealer-remote-config</a></li>
+  <li><a key="sd" href='https://github.com/nexiahome/diagnostics-app-static-data'>diagnostics-app-static-data</a></li>
+</ul>
+
+<script>
+  document.querySelector('h1').innerHTML = new Date().toString()
+  let lastTwoKeys = '  '
+  document.body.addEventListener('keydown', e => {
+    lastTwoKeys = lastTwoKeys.substr(1) + e.key
+    const link = document.querySelector(`a[key=${lastTwoKeys}]`)
+    if (link) {
+      window.location = link.href
+    }
+  })
+  document.querySelectorAll('a').forEach(link => {
+    link.parentElement.innerHTML = `<span>[${link.getAttribute('key')}] </span>${link.parentElement.innerHTML}`
+  })
+</script>
