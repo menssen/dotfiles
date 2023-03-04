@@ -147,6 +147,10 @@
 
     setIssueMode(false)
 
+    if (e.key.length > 1) {
+      return
+    }
+
     issueKey = ''
     lastTwoKeys = lastTwoKeys.substr(1) + e.key
     const link = document.querySelector(`a[key=${lastTwoKeys}]`)
