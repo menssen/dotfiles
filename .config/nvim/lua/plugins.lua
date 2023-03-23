@@ -121,6 +121,7 @@ use 'sainnhe/edge'
 use 'tpope/vim-fugitive'
 use 'tpope/vim-rhubarb'
 use 'tpope/vim-surround'
+use 'github/copilot.vim'
 
 --
 -- Put this at the end after all plugins

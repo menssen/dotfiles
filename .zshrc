@@ -6,6 +6,9 @@ PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 # Homebrew
 PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
+# Postgres
+PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+
 # Python
 PATH=/Users/dan/Library/Python/3.9/bin:$PATH
 PATH=/usr/local/Cellar/python@3.9/3.9.1_1/bin:$PATH
