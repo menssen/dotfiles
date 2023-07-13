@@ -9,6 +9,8 @@ return require('packer').startup(function(use)
 -- Packer can manage itself
 use 'wbthomason/packer.nvim'
 
+use 'github/copilot.vim'
+
 use {
   'neovim/nvim-lspconfig',
   requires = { {'hrsh7th/cmp-nvim-lsp'} },
@@ -47,6 +49,7 @@ use {
   'folke/trouble.nvim',
   config = function()
     require('trouble').setup({
+      mode = 'document_diagnostics',
       icons = false,
       fold_open = 'v',
       fold_closed = '>',

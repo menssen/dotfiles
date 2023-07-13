@@ -1,16 +1,6 @@
--- require("plugins")
--- require("typescript").setup({})
---[[ require("vgit").setup({
-  live_gutter = {
-    enabled = false,
-  },
-}) ]]
--- require("null-ls").setup()
--- require("eslint").setup({
---   bin = "eslint",
---   diagnostics= {
---     enable = true,
---     report_unused_disable_directives = true,
---     run_on = "type",
---   },
--- })
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf })
+    vim.keymap.set('n', 'L', vim.lsp.buf.implementation, { buffer = args.buf })
+  end,
+})
