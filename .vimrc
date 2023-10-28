@@ -122,7 +122,7 @@ set winwidth=120
 let mapleader = ","
 
 " Use old indent guides keymappings for IndentBlankline
-nmap <Leader>ig :IndentBlanklineToggle<cr>
+nmap <Leader>ig :IBLToggle<cr>
 
 " Use leader prefixed y/p for system clipboard
 vmap <Leader>y "*y
