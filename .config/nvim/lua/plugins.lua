@@ -26,19 +26,6 @@ use {
 }
 
 use {
-  'jose-elias-alvarez/typescript.nvim',
-  requires = { {'hrsh7th/cmp-nvim-lsp'} },
-  config = function()
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
-    require('typescript').setup({
-      server = {
-        capabilities = capabilities,
-      },
-    })
-  end
-}
-
-use {
   'numToStr/Comment.nvim',
   config = function()
     require('Comment').setup()
@@ -49,17 +36,17 @@ use {
   'folke/trouble.nvim',
   config = function()
     require('trouble').setup({
-      mode = 'document_diagnostics',
-      icons = false,
-      fold_open = 'v',
-      fold_closed = '>',
-      indent_lines = false,
-      signs = {
-        error = 'error',
-        warning = 'warn',
-        hint = 'hint',
-        information = 'info',
-      },
+      -- mode = 'diagnostics',
+      -- icons = false,
+      -- fold_open = 'v',
+      -- fold_closed = '>',
+      -- indent_lines = false,
+      -- signs = {
+      --   error = 'error',
+      --   warning = 'warn',
+      --   hint = 'hint',
+      --   information = 'info',
+      -- },
     })
   end
 }
@@ -107,16 +94,29 @@ use {
 
 use {
   'nvim-treesitter/nvim-treesitter',
-  run = function()
-    local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-  end,
+  run = ':TSUpdate',
   config = function()
     require('nvim-treesitter.configs').setup({
-      ensure_installed = "all",
+      ensure_installed = { 'c', 'lua', 'vim', 'vimdoc', 'query', 'bash', 'typescript', 'javascript', 'json', 'diff', 'dot', 'go', 'java', 'jq', 'kotlin', 'markdown', 'markdown_inline', 'sql', 'yaml' },
       highlight = {
-        enable = true
-      }
+        enable = true,
+      },
     })
+  end
+}
+
+use {
+  'pmizio/typescript-tools.nvim',
+  requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+  config = function()
+    require('typescript-tools').setup {
+      settings = {
+        jsx_close_tag = {
+          enable = true,
+          filetypes = { 'javascriptreact', 'typescriptreact' },
+        },
+      }
+    }
   end
 }
 
@@ -124,7 +124,6 @@ use 'sainnhe/edge'
 use 'tpope/vim-fugitive'
 use 'tpope/vim-rhubarb'
 use 'tpope/vim-surround'
-use 'github/copilot.vim'
 
 --
 -- Put this at the end after all plugins

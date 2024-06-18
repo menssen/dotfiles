@@ -2,7 +2,8 @@
 	name = Dan Menssen
         email = dan.menssen@tranetechnologies.com
 [credential]
-	helper = osxkeychain
+	helper = !aws codecommit credential-helper --profile 004819182232_CodeCommit_ReadOnlyaccess $@
+	UseHttpPath = true
 [pull]
 	rebase = true
 [filter "lfs"]

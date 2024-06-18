@@ -1,43 +1,27 @@
 source ~/.zshcreds
 
-COPYFILE_DISABLE=true
-PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
-
 # Homebrew
-PATH=/usr/local/sbin:/usr/local/bin:$PATH
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Don't put ._ files in tarballs (macos)
+COPYFILE_DISABLE=true
 
 # Postgres
-PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+# PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
 # Python
-PATH=/Users/dan/Library/Python/3.9/bin:$PATH
-PATH=/usr/local/Cellar/python@3.9/3.9.1_1/bin:$PATH
-
+# PATH=/Users/dan/Library/Python/3.9/bin:$PATH
+# PATH=/usr/local/Cellar/python@3.9/3.9.1_1/bin:$PATH
 
 # Ruby
-# PATH=/usr/local/lib/ruby/gems/2.7.0/bin:/usr/local/opt/ruby/bin:$PATH
-# PATH=/usr/local/lib/ruby/gems/3.1.0/bin:/usr/local/opt/ruby/bin:$PATH
-export PATH="/usr/local/lib/ruby/gems/2.7.0/bin:/usr/local/opt/ruby@2.7/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/ruby/lib"
-export CPPFLAGS="-I/usr/local/opt/ruby/include"
-export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
-# eval "$(rbenv init -)"
-
-# # Terraform
-PATH=/opt/bin:~/bin:/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:$PATH
-PATH=/Users/dan/Library/Android/sdk/platform-tools:/Users/dan/Library/Android/sdk/tools:$PATH
-# PATH=/Applications/VMware\ Fusion.app/Contents/Library:~/bin:~/adt/sdk/tools:~/adt/sdk/platform-tools:/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:~/Library/Python/2.7/bin:$PATH
-# PATH="/usr/local/opt/terraform@0.12/bin:$PATH"
-
-# homebrew ruby
-PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.0.0/bin:$PATH"
+eval "$(rbenv init - zsh)"
 
 # Perforce
-export P4CLIENT=p4git
-export P4PORT=TYR-RV-ENG2P.AD.CORP.GLOBAL:1666
-export P4HOST=TYR-RV-ENG2P.AD.CORP.GLOBAL
-export P4USER=u208115
-export P4PASSWD="$ZSH_CREDENTIALS_P4PASSWD"
+# export P4CLIENT=p4git
+# export P4PORT=TYR-RV-ENG2P.AD.CORP.GLOBAL:1666
+# export P4HOST=TYR-RV-ENG2P.AD.CORP.GLOBAL
+# export P4USER=u208115
+# export P4PASSWD="$ZSH_CREDENTIALS_P4PASSWD"
 
 # iCloud Drive Shortcut
 export IC='/Users/dan/Library/Mobile Documents/com~apple~CloudDocs'
@@ -48,13 +32,8 @@ export EDITOR=nvim
 export VISUAL=nvim
 
 # Java
-export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
-export CPPFLAGS="-I/usr/local/opt/openjdk@11/include"
-
-# export CATALINA_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.7.jdk/Contents/Home
-# export CATALINA_PID="/usr/local/Cellar/tomcat/8.0.15/libexec/catalina_pid.txt"
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 
 # AWS
 export AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_DEV"
@@ -158,3 +137,4 @@ function dstop {
 
 # Created by `pipx` on 2021-03-29 16:55:21
 export PATH="$PATH:/Users/dan/.local/bin"
+export PATH=$PATH:$HOME/.maestro/bin

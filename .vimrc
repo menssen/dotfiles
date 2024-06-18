@@ -185,6 +185,15 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
+" Use prettier to format files
+function! Prettier()
+    let l:file = expand('%')
+    exec ':!npx prettier --write ' . l:file
+    exec ':e'
+endfunction
+
+map <leader>r :call Prettier()<cr>
+
 " Rename Current File
 " (Stolen from Gary Bernhardt)
 function! RenameFile()
