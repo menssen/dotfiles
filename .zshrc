@@ -1,7 +1,10 @@
 source ~/.zshcreds
 
+export MACOSX_DEPLOYMENT_TARGET="14.5"
+
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
 
 # Don't put ._ files in tarballs (macos)
 COPYFILE_DISABLE=true
@@ -36,8 +39,12 @@ export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 
 # AWS
-export AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_DEV"
-export AWS_SECRET_ACCESS_KEY="$ZSH_CREDENTIALS_AWS_SECRET_ACCESS_KEY_TIS_DEV"
+# export AWS_ACCESS_KEY_ID="$ZSH_CREDENTIALS_AWS_ACCESS_KEY_ID_TIS_DEV"
+# export AWS_SECRET_ACCESS_KEY="$ZSH_CREDENTIALS_AWS_SECRET_ACCESS_KEY_TIS_DEV"
+
+# export AWS_ACCESS_KEY_ID="$RES_POC_AWS_ACCESS_KEY_ID"
+# export AWS_SECRET_ACCESS_KEY="$RES_POC_AWS_SECRET_ACCESS_KEY"
+# export AWS_DEFAULT_REGION=us-west-2
 
 # Android
 export ANDROID_HOME="$HOME/Library/Android/sdk"
@@ -49,6 +56,8 @@ export GREP_OPTIONS="--color" # Unbreak history
 export HISTSIZE=100000
 export HISTFILE="$HOME/.history"
 export SAVEHIST=$HISTSIZE
+
+export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_LIBRARY_PATH"
 
 # Setup homebrew prefixes
 if type brew &>/dev/null; then
@@ -86,6 +95,8 @@ alias 'dus=du -ms * | sort -n'
 alias 'glog=git log --all --graph --pretty=format:"%Cred%d%Creset %h %Cblue%aN %Cgreen%ai %Creset%s"'
 alias 'glogg=git log --graph --pretty=format:"%Cred%d%Creset %h %Cblue%aN %Cgreen%ai %Creset%s"'
 alias 'vim=nvim'
+alias 'python=python3'
+alias 'pip=pip3'
 alias "ic=cd '$IC'"
 alias 'vpn=sudo openconnect --user=cccfjd --csd-user=nobody --csd-wrapper=/usr/local/Cellar/openconnect/8.10/libexec/openconnect/csd-post.sh amvpn1.corp.global/tiscontractor'
 
@@ -138,3 +149,5 @@ function dstop {
 # Created by `pipx` on 2021-03-29 16:55:21
 export PATH="$PATH:/Users/dan/.local/bin"
 export PATH=$PATH:$HOME/.maestro/bin
+
+export PATH="/Users/dan/codeql:$PATH"

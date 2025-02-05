@@ -160,6 +160,7 @@ nmap <c-f> :Telescope find_files<cr>
 nmap <Leader>ff :Telescope buffers<cr>
 nmap <Leader>fg :Telescope live_grep<cr>
 nmap <Leader>f. :Telescope builtin<cr>
+nmap <Leader>fd :lua require('telescope.builtin').diagnostics({ wrap_results=true, line_width='full' })<cr>
 
 " Use ag for grep
 set grepprg=ag\ --nogroup\ --nocolor
@@ -185,15 +186,6 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
-" Use prettier to format files
-function! Prettier()
-    let l:file = expand('%')
-    exec ':!npx prettier --write ' . l:file
-    exec ':e'
-endfunction
-
-map <leader>r :call Prettier()<cr>
-
 " Rename Current File
 " (Stolen from Gary Bernhardt)
 function! RenameFile()
@@ -207,25 +199,10 @@ function! RenameFile()
 endfunction
 map <leader>n :call RenameFile()<cr>
 
-" Use Tab for indent if on a blank/whitespace line,
-" or completion if there is text entered
-" (Stolen from Gary Benhardt)
-" function! InsertTabWrapper()
-"     let col = col('.') - 1
-"     if !col || getline('.')[col - 1] =~ '\s'
-"         return "\<tab>"
-"     else
-"         g:deoplete#manual_complete()
-"     endif
-" endfunction
-" inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-" inoremap <s-tab> <c-n>
+" trigger `autoread` when files changes on disk
+set autoread
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 
-" Files should open with cursor at same line as when closed
-" From vim docs, via Gary Bernhardt
-autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
-
-
+" notification after file change
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
