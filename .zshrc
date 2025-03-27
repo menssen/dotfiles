@@ -146,6 +146,14 @@ function dstop {
         mutagen project terminate
 }
 
+function avim {
+  tmux new-session -d 'zsh -i'
+  tmux send-keys 'vim' C-m
+  tmux split-window -p 10 -h 'aider --watch-files --yes'
+  tmux select-pane -L
+  tmux attach-session
+}
+
 # Created by `pipx` on 2021-03-29 16:55:21
 export PATH="$PATH:/Users/dan/.local/bin"
 export PATH=$PATH:$HOME/.maestro/bin
