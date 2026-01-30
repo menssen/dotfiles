@@ -149,7 +149,7 @@ function dstop {
 function avim {
   tmux new-session -d 'zsh -i'
   tmux send-keys 'vim' C-m
-  tmux split-window -p 10 -h 'aider --watch-files --yes'
+  tmux split-window -p 10 -h 'aider --watch-files'
   tmux select-pane -L
   tmux attach-session
 }
@@ -159,3 +159,9 @@ export PATH="$PATH:/Users/dan/.local/bin"
 export PATH=$PATH:$HOME/.maestro/bin
 
 export PATH="/Users/dan/codeql:$PATH"
+
+export CLAUDE_CODE_USE_BEDROCK=1
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=4096
+export CLAUDE_CODE_MAX_THINKING_TOKENS=1024
+export MAX_THINKING_TOKENS=1024
+export AWS_REGION=us-east-1
